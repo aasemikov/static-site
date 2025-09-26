@@ -1,0 +1,24 @@
+site_name: Статический сайт ИТМО by Семиков Алексей
+site_description: Проект для развертывания на Helios
+site_author: Студент 2 курса магистратуры Семиков Алексей
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+  palette:
+    primary: blue
+    accent: light blue
+
+nav:
+  - Главная: index.md
+  - О проекте: about.md
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - codehilite
