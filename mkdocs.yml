@@ -12,6 +12,7 @@ theme:
 nav:
   - Главная: index.md
   - О проекте: about.md
+  - Отчет: report.md
 
 extra:
   social:
