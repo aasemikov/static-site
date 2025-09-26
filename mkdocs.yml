@@ -1,6 +1,6 @@
-site_name: Статический сайт ИТМО by Семиков Алексей
-site_description: Проект для развертывания на Helios
-site_author: Студент 2 курса магистратуры Семиков Алексей
+site_name: Мой статический сайт
+site_description: Статический сайт на GitHub Pages
+site_url: https://aasemikov.github.io/my-static-site/
 
 theme:
   name: material
@@ -8,14 +8,15 @@ theme:
     - navigation.tabs
     - navigation.sections
     - search.suggest
-    - search.highlight
-  palette:
-    primary: blue
-    accent: light blue
 
 nav:
   - Главная: index.md
   - О проекте: about.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/aasemikov
 
 markdown_extensions:
   - toc:
