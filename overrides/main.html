@@ -1,54 +1,122 @@
 {% extends "base.html" %}
 
-{% block content %}
-  {% if page.meta and page.meta.hide %}
-    {% set hidden = "hidden" %}
-  {% endif %}
+{% block extrahead %}
+  {{ super() }}
+  <meta name="theme-color" content="#0066cc">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ config.site_name }}",
+    "description": "{{ config.site_description }}",
+    "url": "{{ config.site_url }}",
+    "author": {
+      "@type": "Person",
+      "name": "{{ config.site_author }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Университет ИТМО"
+    }
+  }
+  </script>
+{% endblock %}
 
+{% block content %}
   <!-- Кастомный хедер -->
-  <div class="custom-header" {{ hidden }}>
-    <div class="header-content">
-      <div class="header-badge">
-        <span class="badge">ИТМО 2025</span>
+  <div class="custom-hero">
+    <div class="hero-container">
+      <div class="hero-badge">
+        <span class="badge">🎓 Университет ИТМО 2025</span>
       </div>
-      <h1 class="custom-title">{{ page.title | default(config.site_name, true) }}</h1>
+      <h1 class="hero-title">{{ page.title | default(config.site_name, true) }}</h1>
       {% if page.meta and page.meta.description %}
-        <p class="custom-description">{{ page.meta.description }}</p>
+        <p class="hero-description">{{ page.meta.description }}</p>
+      {% elif page.is_homepage %}
+        <p class="hero-description">{{ config.site_description }}</p>
       {% endif %}
+      
+      <!-- Call-to-action кнопки -->
+      <div class="hero-actions">
+        <a href="{{ 'about.md' | url }}" class="md-button md-button--primary">
+          <span class="twemoji">👨‍💻</span> О проекте
+        </a>
+        <a href="{{ 'report.md' | url }}" class="md-button">
+          <span class="twemoji">📊</span> Отчет
+        </a>
+      </div>
     </div>
   </div>
 
   {{ super() }}
 
   <!-- Кастомный футер -->
-  <div class="custom-footer" {{ hidden }}>
-    <hr>
-    <div class="footer-content">
-      <div class="footer-section">
-        <strong>Разработано в ИТМО</strong>
-        <p>Семиков Алексей</p>
+  <footer class="custom-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h3>Разработка</h3>
+          <p>Семиков Алексей</p>
+          <p>Университет ИТМО</p>
+          <p>2025 год</p>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Технологии</h3>
+          <ul>
+            <li>MkDocs + Material</li>
+            <li>Python 3.11</li>
+            <li>GitHub Actions</li>
+            <li>PostCSS</li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Ссылки</h3>
+          <ul>
+            <li><a href="https://itmo.ru">Университет ИТМО</a></li>
+            <li><a href="https://github.com/aasemikov">GitHub</a></li>
+            <li><a href="https://docs.github.com/actions">GitHub Actions</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Проект</h3>
+          <p>Статический сайт с кастомной темой и автоматизированным деплоем</p>
+          <div class="build-info">
+            <small>Build: {{ build_date_utc }}</small>
+          </div>
+        </div>
       </div>
-      <div class="footer-section">
-        <strong>Технологии</strong>
-        <p>MkDocs • Python • GitHub Actions</p>
-      </div>
-      <div class="footer-section">
-        <strong>Ссылки</strong>
-        <p>
-          <a href="https://itmo.ru">Университет ИТМО</a> • 
-          <a href="https://github.com/aasemikov">GitHub</a>
-        </p>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 Университет ИТМО. Собрано с ❤️ с помощью MkDocs и GitHub Actions</p>
       </div>
     </div>
-  </div>
-{% endblock %}
-
-{% block styles %}
-  {{ super() }}
-  <link rel="stylesheet" href="{{ 'assets/stylesheets/custom.css' | url }}">
+  </footer>
 {% endblock %}
 
 {% block scripts %}
   {{ super() }}
-  <script src="{{ 'assets/javascripts/custom.js' | url }}"></script>
+  
+  <!-- Кастомный JavaScript -->
+  <script>
+    // Добавление информации о сборке
+    document.addEventListener('DOMContentLoaded', function() {
+      const buildInfo = document.querySelector('.build-info');
+      if (buildInfo) {
+        buildInfo.innerHTML += `<br><small>Последнее обновление: ${new Date().toLocaleString('ru-RU')}</small>`;
+      }
+      
+      // Улучшенная навигация
+      const currentPage = document.querySelector('.md-tabs__link--active');
+      if (currentPage) {
+        currentPage.style.fontWeight = '600';
+      }
+    });
+  </script>
 {% endblock %}

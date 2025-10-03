@@ -1,8 +1,8 @@
-site_name: Мой статический сайт ИТМО
-site_description: Кастомный статический сайт с расширенной функциональностью
+site_name: Кастомный сайт ИТМО
+site_description: Современный статический сайт с кастомной темой и автоматизацией
 site_url: https://aasemikov.github.io/my-static-site/
 site_author: Семиков Алексей
-copyright: Copyright &copy; 2025 Семиков Алексей - Университет ИТМО
+copyright: "Copyright © 2025 Семиков Алексей - Университет ИТМО"
 
 # Кастомная тема на основе Material
 theme:
@@ -11,51 +11,67 @@ theme:
   features:
     - navigation.tabs
     - navigation.sections
-    - search.suggest
     - navigation.expand
+    - search.suggest
     - toc.integrate
+    - content.code.copy
   palette:
     - scheme: default
-      primary: blue
+      primary: custom
       accent: amber
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - scheme: slate
-      primary: blue
+      primary: custom
       accent: amber
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
 
-# Дополнительные CSS
 extra_css:
   - stylesheets/custom.css
-
-# Дополнительные JS
 extra_javascript:
   - javascripts/custom.js
 
-# Навигация
 nav:
   - Главная: index.md
   - О проекте: about.md
   - Отчет: report.md
   - Демо: demo.md
+  - Технологии: technologies.md
 
 markdown_extensions:
   - toc:
       permalink: true
+      permalink_symbol: "🔗"
   - admonition
-  - codehilite
+  - pymdownx.details
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
-  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
   - attr_list
   - md_in_html
+
+extra:
+  analytics:
+    provider: google
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/aasemikov
+      name: GitHub репозиторий
+    - icon: fontawesome/brands/python
+      link: https://python.org
+      name: Python
+  generator: false
 
 plugins:
   - search
   - minify:
       minify_html: true
+      minify_js: true
+      minify_css: true
