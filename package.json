@@ -1,0 +1,19 @@
+{
+  "name": "my-static-site",
+  "version": "1.0.0",
+  "description": "Custom static site with MkDocs",
+  "scripts": {
+    "test:links": "find docs -name \"*.md\" -exec markdown-link-check -c .github/markdown-link-check-config.json {} \\;",
+    "build:css": "postcss docs/stylesheets/custom.css --use postcss-preset-env --use autoprefixer --use cssnano --output docs/stylesheets/custom.min.css --no-map",
+    "validate:html": "html5validator --root overrides/ --ignore \"*.min.css,*.min.js\""
+  },
+  "devDependencies": {
+    "markdown-link-check": "^3.10.0",
+    "postcss-cli": "^10.0.0",
+    "autoprefixer": "^10.4.14",
+    "cssnano": "^5.1.15",
+    "postcss-preset-env": "^7.8.3",
+    "@lhci/cli": "^0.12.0",
+    "lighthouse": "^10.0.0"
+  }
+}
