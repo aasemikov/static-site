@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if page.meta and page.meta.hide %}
+    {% set hidden = "hidden" %}
+  {% endif %}
+
+  <!-- Кастомный хедер -->
+  <div class="custom-header" {{ hidden }}>
+    <div class="header-content">
+      <div class="header-badge">
+        <span class="badge">ИТМО 2025</span>
+      </div>
+      <h1 class="custom-title">{{ page.title | default(config.site_name, true) }}</h1>
+      {% if page.meta and page.meta.description %}
+        <p class="custom-description">{{ page.meta.description }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  {{ super() }}
+
+  <!-- Кастомный футер -->
+  <div class="custom-footer" {{ hidden }}>
+    <hr>
+    <div class="footer-content">
+      <div class="footer-section">
+        <strong>Разработано в ИТМО</strong>
+        <p>Семиков Алексей</p>
+      </div>
+      <div class="footer-section">
+        <strong>Технологии</strong>
+        <p>MkDocs • Python • GitHub Actions</p>
+      </div>
+      <div class="footer-section">
+        <strong>Ссылки</strong>
+        <p>
+          <a href="https://itmo.ru">Университет ИТМО</a> • 
+          <a href="https://github.com/aasemikov">GitHub</a>
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ 'assets/stylesheets/custom.css' | url }}">
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script src="{{ 'assets/javascripts/custom.js' | url }}"></script>
+{% endblock %}

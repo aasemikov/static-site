@@ -1,25 +1,105 @@
-name: Deploy MkDocs
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+    
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-    - run: pip install mkdocs mkdocs-material
-    - run: mkdocs build
-    - uses: actions/upload-pages-artifact@v3
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install mkdocs-material
+        pip install mkdocs-minify-plugin
+        pip install pillow cairosvg
+        
+    - name: Setup Node.js for PostCSS
+      uses: actions/setup-node@v4
       with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install PostCSS and plugins
+      run: |
+        npm install -g postcss-cli
+        npm install -g autoprefixer cssnano postcss-preset-env
+        
+    - name: Process CSS with PostCSS
+      run: |
+        postcss docs/stylesheets/custom.css \
+          --use autoprefixer \
+          --use cssnano \
+          --replace \
+          --no-map
+        
+    - name: HTML Validation
+      run: |
+        pip install html5validator
+        html5validator --root docs/ --ignore "*.min.css"
+        
+    - name: Build site
+      run: |
+        mkdocs build --strict --verbose
+        
+    - name: Validate output HTML
+      run: |
+        html5validator --root site/ --ignore "*.min.css,*.min.js"
+        
+    - name: Test built site
+      run: |
+        python -m http.server -d site 8000 &
+        sleep 5
+        curl -f http://localhost:8000 || exit 1
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: site-build
+        path: site/
+        retention-days: 1
+        
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+      
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: site-build
         path: site
-    - uses: actions/deploy-pages@v4
+        
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: 'site'
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
