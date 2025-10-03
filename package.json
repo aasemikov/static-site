@@ -1,9 +1,0 @@
-{
-    "name": "my-static-site",
-    "version": "1.0.0",
-    "description": "Custom static site with MkDocs",
-    "scripts": {
-      "test:links": "find docs -name \"*.md\" -exec markdown-link-check -c .github/markdown-link-check-config.json {} \\;",
-      "build:css": "postcss docs/stylesheets/custom.css --use postcss-preset-env --use autoprefixer --use cssnano --output docs/stylesheets/custom.min.css --no-map"
-    }
-  }
