@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Улучшенная типографика */
+.prose {
+  @apply prose-headings:font-semibold 
+         prose-p:leading-relaxed
+         prose-a:transition-colors
+         prose-code:font-mono
+         prose-pre:bg-gray-900
+         prose-pre:text-gray-100
+         prose-blockquote:border-l-blue-500
+         prose-blockquote:bg-blue-50
+         prose-blockquote:italic
+         prose-strong:font-bold
+         prose-em:italic
+         prose-table:shadow-sm
+         prose-th:bg-gray-100
+         prose-th:font-semibold
+         prose-img:rounded-lg
+         prose-hr:border-gray-300;
+}
+
+/* Кастомные стили для улучшения читаемости */
+.markdown-body {
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  hyphenate-character: "—";
+}
+
+/* Оптимальная длина строки для читаемости */
+.prose {
+  max-width: 65ch;
+}
+
+/* Стили для якорных ссылок */
+.prose .headerlink {
+  @apply opacity-0 ml-2 no-underline text-gray-400 hover:text-blue-500 transition-all duration-200;
+  font-family: system-ui, sans-serif;
+}
+
+.prose h1:hover .headerlink,
+.prose h2:hover .headerlink,
+.prose h3:hover .headerlink,
+.prose h4:hover .headerlink {
+  @apply opacity-100;
+}
+
+/* Плавная прокрутка */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Header и Footer */
+.custom-header {
+  @apply bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50;
+}
+
+.custom-navbar {
+  @apply container mx-auto px-4 py-4;
+}
+
+.custom-footer {
+  @apply bg-gray-800 text-white mt-16;
+}
+
+/* Улучшенные стили для кода */
+.prose pre {
+  @apply border border-gray-700;
+}
+
+.prose code {
+  @apply text-sm;
+}
+
+/* Кастомные стили для улучшения визуальной иерархии */
+.prose h1 {
+  @apply text-gray-900 tracking-tight;
+}
+
+.prose h2 {
+  @apply text-gray-800 tracking-tight;
+}
+
+.prose h3 {
+  @apply text-gray-800;
+}
+
+/* Оптимальные межбуквенные интервалы */
+.prose h1, .prose h2, .prose h3 {
+  letter-spacing: -0.025em;
+}

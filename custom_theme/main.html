@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ config.site_description }}">
+    
+    <title>
+        {% if page and page.meta and page.meta.title %}
+            {{ page.meta.title }} - {{ config.site_name }}
+        {% elif page and page.title %}
+            {{ page.title }} - {{ config.site_name }}
+        {% else %}
+            {{ config.site_name }}
+        {% endif %}
+    </title>
+    
+    <link rel="stylesheet" href="{{ 'assets/css/tailwind.css'|url }}">
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Плавная прокрутка для якорных ссылок
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const headerHeight = 80;
+                        const targetPosition = target.offsetTop - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen flex flex-col">
+    <header class="custom-header">
+        <nav class="custom-navbar" aria-label="Основная навигация">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center" aria-hidden="true">
+                        <span class="text-white font-bold text-lg">S</span>
+                    </div>
+                    <a href="{{ nav.homepage.url|url }}" class="text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
+                        {{ config.site_name }}
+                    </a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    {% for nav_item in nav %}
+                    <a href="{{ nav_item.url|url }}" 
+                       class="text-gray-700 hover:text-blue-600 font-medium transition-colors {% if nav_item.active %}text-blue-600{% endif %}"
+                       {% if nav_item.active %}aria-current="page"{% endif %}>
+                        {{ nav_item.title }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <article class="prose prose-lg max-w-none">
+            {{ page.content }}
+        </article>
+    </main>
+
+    <footer class="custom-footer">
+        <div class="container mx-auto px-4 py-8 text-center">
+            <p class="text-gray-400 text-sm">
+                &copy; {{ build_date_utc.strftime('%Y') }} {{ config.site_name }}
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
