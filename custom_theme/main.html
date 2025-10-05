@@ -39,43 +39,14 @@
     </script>
 </head>
 <body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen flex flex-col">
-    <header class="custom-header">
-        <nav class="custom-navbar" aria-label="Основная навигация">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center" aria-hidden="true">
-                        <span class="text-white font-bold text-lg">S</span>
-                    </div>
-                    <a href="{{ nav.homepage.url|url }}" class="text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
-                        {{ config.site_name }}
-                    </a>
-                </div>
+    {% include "partials/header.html" %}
 
-                <div class="hidden md:flex items-center space-x-8">
-                    {% for nav_item in nav %}
-                    <a href="{{ nav_item.url|url }}" 
-                       class="text-gray-700 hover:text-blue-600 font-medium transition-colors {% if nav_item.active %}text-blue-600{% endif %}"
-                       {% if nav_item.active %}aria-current="page"{% endif %}>
-                        {{ nav_item.title }}
-                    </a>
-                    {% endfor %}
-                </div>
-            </div>
-        </nav>
-    </header>
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <article class="prose prose-lg max-w-none">
+                {{ page.content }}
+            </article>
+        </main>
 
-    <main class="flex-grow container mx-auto px-4 py-8">
-        <article class="prose prose-lg max-w-none">
-            {{ page.content }}
-        </article>
-    </main>
-
-    <footer class="custom-footer">
-        <div class="container mx-auto px-4 py-8 text-center">
-            <p class="text-gray-400 text-sm">
-                &copy; {{ build_date_utc.strftime('%Y') }} {{ config.site_name }}
-            </p>
-        </div>
-    </footer>
+    {% include "partials/footer.html" %}
 </body>
 </html>
